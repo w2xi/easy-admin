@@ -1,0 +1,13 @@
+@import './normalize.css';
+@import './transition.css';
+
+html,
+body,
+#app {
+	height: 100%;
+}
+
+a {
+	color: #fff;
+	text-decoration: none;
+}
