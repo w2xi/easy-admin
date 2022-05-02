@@ -1,4 +1,6 @@
 <script>
+import userApi from '../api/user'
+
 export default {
   name: 'Login',
   data() {
@@ -24,7 +26,9 @@ export default {
     login() {
       this.$refs.formRef.validate((valid) => {
         if (valid) {
-          // ...
+          this.$store.dispatch('login', this.form).then(() => {
+            this.$router.push('/')
+          })
         } 
       })
     }
