@@ -1,10 +1,22 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Layout from '../layout/Layout.vue'
+import Layout from '@/layout/Layout.vue'
 
 Vue.use(VueRouter)
 
 const constantRoutes = [
+  {
+    path: '/',
+    redirect: '/dashboard',
+    component: Layout,
+    children: [
+      {
+        path: 'dashboard',
+        name: 'Dashboard',
+        component: () => import('@/views/Dashboard.vue'),
+      }
+    ]
+  },
   {
     path: '/login',
     name: 'Login',

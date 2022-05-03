@@ -49,6 +49,8 @@ import {
   Tooltip,
   Checkbox,
   CheckboxGroup,
+  Breadcrumb,
+  BreadcrumbItem,
 } from 'element-ui'
 
 Vue.use(Button)
@@ -97,6 +99,8 @@ Vue.use(TimelineItem)
 Vue.use(Tooltip)
 Vue.use(Checkbox)
 Vue.use(CheckboxGroup)
+Vue.use(Breadcrumb)
+Vue.use(BreadcrumbItem)
 Vue.use(Loading.directive)
 
 Vue.prototype.$loading = Loading.service

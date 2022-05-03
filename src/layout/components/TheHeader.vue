@@ -1,12 +1,11 @@
 <template>
-  <el-header height="50px">
-    <el-row :gutter="20">
-      <!-- <el-col :span="3">
-        <div class="logo-wrapper">
-          <img class="logo" src="@/assets/images/logo.png" alt="logo" />
-        </div>
-      </el-col> -->
-      <el-col :span="4" :offset="20" align="center">
+  <el-header height="55px">
+    <el-row :gutter="0">
+      <el-col class="breadcrumb-col" :span="18">
+        <hamburger :is-active="$store.state.sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+        <breadcrumb class="breadcrumb-container" />
+      </el-col>
+      <el-col :span="4" :offset="2" align="center">
         <div class="account-info">
           <el-avatar :size="40">
             <img
@@ -29,8 +28,14 @@
 
 <script>
 import { removeToken } from '@/utils/auth'
+import Breadcrumb from '@/components/Breadcrumb.vue'
+import Hamburger from '@/components/Hamburger.vue'
 
 export default {
+  components: {
+    Hamburger,
+    Breadcrumb,
+  },
   data() {
     return {
       
@@ -56,6 +61,10 @@ export default {
           break;
       }
     },
+
+    toggleSideBar() {
+      this.$store.dispatch('toggleSideBar')
+    },
   },
 };
 </script>
@@ -65,8 +74,31 @@ export default {
 .el-header {
   background: #fff;
   color: #333;
-  padding: 10px 0;
+  padding: 0;
   border-bottom: 1px solid rgba(0,0,0,.1);
+
+  .hamburger-container {
+    line-height: 46px;
+    height: 100%;
+    float: left;
+    cursor: pointer;
+    transition: background .3s;
+    -webkit-tap-highlight-color:transparent;
+
+    &:hover {
+      background: rgba(0, 0, 0, .025)
+    }
+  }
+
+
+  .el-row {
+    height: 100%;
+  }
+
+  .breadcrumb-col {
+    height: 100%;
+    overflow: hidden;
+  }
 }
 
 .logo-wrapper {

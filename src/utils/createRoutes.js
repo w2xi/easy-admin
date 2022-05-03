@@ -8,13 +8,11 @@ export default function createRoutes(data){
   const children = [
     { path: '/404', name: '404', component: () => import('@/components/404.vue'), }
   ]
-  const redirectPath = data[0].list[0].route_path
 
   result.push({
     children,
     path: '/',
     component: Layout,
-    redirect: redirectPath,
   })
 
   data.forEach(item => {
