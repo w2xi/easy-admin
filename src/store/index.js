@@ -8,16 +8,36 @@ import {
   removeToken,
 } from '../utils/auth'
 import { toTree } from '../utils/common'
+import Cookies from 'js-cookie'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     menuList: [],
+    sidebar: {
+      opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
+      withoutAnimation: false
+    },
   },
   mutations: {
     SET_MENU_LIST(state, menuList) {
       state.menuList = menuList
+    },
+    TOGGLE_SIDEBAR(state) {
+      state.sidebar.opened = !state.sidebar.opened
+      state.sidebar.withoutAnimation = false
+
+      if (state.sidebar.opened) {
+        Cookies.set('sidebarStatus', 1)
+      } else {
+        Cookies.set('sidebarStatus', 0)
+      }
+    },
+    CLOSE_SIDEBAR: (state, withoutAnimation) => {
+      Cookies.set('sidebarStatus', 0)
+      state.sidebar.opened = false
+      state.sidebar.withoutAnimation = withoutAnimation
     },
   },
   actions: {
@@ -40,7 +60,7 @@ export default new Vuex.Store({
 
     getUserInfo({ commit }){
       return new Promise((resolve, reject) => {
-        userApi.getUserInfo()
+        userApi.info()
           .then((res) => {
             let menus = toTree(res.data.menus)
 
@@ -49,9 +69,6 @@ export default new Vuex.Store({
             console.log(menus);
 
             const routes = createRoutes(menus)
-
-            console.log(routes);
-  
             routes.forEach(item => router.addRoute(item))
 
             resolve()
@@ -82,6 +99,13 @@ export default new Vuex.Store({
         removeToken()
         resolve()
       })
+    },
+
+    toggleSideBar({ commit }) {
+      commit('TOGGLE_SIDEBAR')
+    },
+    closeSideBar({ commit }, { withoutAnimation }) {
+      commit('CLOSE_SIDEBAR', withoutAnimation)
     },
   },
   getters: {},

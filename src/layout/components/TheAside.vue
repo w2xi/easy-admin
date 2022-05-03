@@ -1,16 +1,22 @@
 <template>
-  <el-aside width="234px">
+  <div class="aside" :style="{ width: isCollapse ? 'auto' : '234px' }">
     <div class="logo-wrapper">
       <img class="logo" src="@/assets/logo.png" alt="lgoo" />
-      <h2 class="title">Easy Admin</h2>
+      <h2 v-if="!isCollapse" class="title">Easy Admin</h2>
     </div>
     <el-menu
       background-color="#304156"
       text-color="#bfcbd9"
       :default-active="$route.path"
-      unique-opened
+      :collapse="isCollapse"
+      :unique-opened="false"
+      :collapse-transition="false"
       router
     >
+      <el-menu-item index="/dashboard">
+        <i class="el-icon-menu"></i>
+        <span slot="title">Dashboard</span>
+      </el-menu-item>
       <template v-for="(item, index) of $store.state.menuList">
         <template v-if="item.list && item.list.length">
           <el-submenu
@@ -33,7 +39,7 @@
         </template>
       </template>
     </el-menu>
-  </el-aside>
+  </div>
 </template>
 
 <script>
@@ -45,28 +51,37 @@ export default {
       return icon.includes('el-icon') ? icon : 'iconfont ' + icon
     },
   },
+
+  computed: {
+    isCollapse(){
+      return this.$store.state.sidebar.opened
+    },
+  },
 }
 </script>
 
 <style lang="scss" scoped>
 .el-aside {
   background: #304156;
-
-  .logo-wrapper {
-    height: 45px;
-    background: #304156;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .logo {
-      height: 30px;
-      object-fit: contain;
-    }
-    .title {
-      font-size: 20px;
-      color: #bfcbd9;
-      margin: 0 0 0 10px;
-    }
+}
+.aside {
+  height: 100%;
+  background: #304156;
+}
+.logo-wrapper {
+  height: 45px;
+  background: #304156;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .logo {
+    height: 25px;
+    object-fit: contain;
+  }
+  .title {
+    font-size: 20px;
+    color: #bfcbd9;
+    margin: 0 0 0 10px;
   }
 }
 
